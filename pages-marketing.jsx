@@ -42,7 +42,9 @@ function HomePage() {
               </div>
             </div>
             <div style={{ position: "relative" }}>
-              <Placeholder label="MACHINE RENDER · LV-4 · PORTRAIT 32″" height={520} />
+              <div style={{ height: 520, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-2)", border: "1px solid var(--rule)", borderRadius: 12, overflow: "hidden", padding: 24 }}>
+                <img src="assets/machine-render.png" alt="AutoVend SmartMart unit — portrait 32″ ad header, glass-front grab-and-go" style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain", display: "block" }} />
+              </div>
               <div style={{ position: "absolute", left: -16, top: 24, background: "var(--bg)", border: "1px solid var(--rule)", padding: "10px 12px", borderRadius: 8, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-3)", letterSpacing: ".04em", display: "flex", flexDirection: "column", gap: 4, boxShadow: "0 8px 24px rgba(0,0,0,.06)" }}>
                 <span>UNIT · AV-0421</span><span style={{ color: "var(--good)" }}>● ONLINE · STOCK 92%</span>
               </div>
@@ -53,7 +55,7 @@ function HomePage() {
           </div>
           <div className="meta" style={{ marginTop: 56, display: "flex", justifyContent: "space-between" }}>
             <span>* TARGET METRICS · DEMO · SUBJECT TO VENUE & CAMPAIGN</span>
-            <span>FIG · 01 — UNIT LV-4 · NOT FINAL RENDER</span>
+            <span>FIG · 01 — UNIT LV-4 · GLASS-FRONT GRAB &amp; GO</span>
           </div>
         </div>
       </section>
