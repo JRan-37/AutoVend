@@ -1,42 +1,39 @@
-# AutoVend Systems — Marketing Site
+# AutoVend
 
-Static prototype. Hash-routed React via Babel-standalone (no build step).
+Platform for AutoVend Systems — smart vending machines with cashless payments, telemetry,
+and a 32″ ad display. Two surfaces: a public marketing/lead-gen site and an internal
+operator CRM (“the console”) for running the fleet.
 
-## Deploy to GitHub Pages
+**Status:** Phase 0 — monorepo scaffold. The fleet is simulator-first (no hardware specs
+yet); see the design docs.
 
-1. Push this folder to a GitHub repo.
-2. **Settings → Pages → Source: Deploy from a branch**, pick `main` (or your branch) and `/` (root).
-3. Wait ~1 min. Site serves at `https://<user>.github.io/<repo>/`.
+## Layout
 
-The `.nojekyll` file at the root disables Jekyll processing so files starting with `_` (none here today, but safe) and JSX files are served as-is.
+| Path | What |
+|---|---|
+| `apps/web` | React Router v7 app — marketing (prerendered) + console (SPA). Phase 1. |
+| `apps/api` | NestJS modular monolith — the CRM. Phase 2+. |
+| `packages/contracts` | zod/ts-rest contracts + enum codes shared FE/BE. |
+| `infra/` | Terraform (S3+CloudFront, App Runner, RDS, OIDC roles). Phase 1+. |
+| `prototype/` | The original static prototype — **frozen as the design reference.** |
+| `docs/` | [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · runbooks |
 
-## Local preview
+## Development
 
-Any static server works:
+Node ≥ 22 (via `fnm`), pnpm (via corepack).
 
 ```sh
-python3 -m http.server 8000
-# then open http://localhost:8000
+pnpm install
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-Opening `index.html` directly via `file://` will fail to load the `.jsx` modules — use a server.
+The prototype needs no build — serve `prototype/` with any static server. The root
+`index.html` only redirects the legacy GitHub Pages URL into `prototype/` until the
+production site replaces Pages.
 
-## Routes
+## Conventions
 
-All routes are hash-based (`#/`, `#/features`, `#/dashboard`, etc.) so deep links work on Pages without any rewrite rules.
-
-## File map
-
-```
-index.html              entry; loads React, Babel, then the app scripts
-styles.css              tokens + global styles
-data.jsx                shared static data
-tweaks-panel.jsx        Tweaks UI (toggle from preview chrome)
-components.jsx          shared chrome — nav, footer, primitives
-map.jsx                 US reach map
-dashboard.jsx           operator console demo
-pages-marketing.jsx     home, location, advertising, features, reach
-pages-forms.jsx         survey, contact
-app.jsx                 router + mount
-assets/                 logos
-```
+- Conventional commits (`feat:`, `fix:`, `docs:`, …); PRs into `main`; CI must be green.
+- This repo is **public**: no secrets, no AWS account IDs, no customer data in any file.
+  Deploys authenticate via GitHub OIDC — there are no AWS keys to leak.
+- Module boundary rules and migration discipline: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §4.
