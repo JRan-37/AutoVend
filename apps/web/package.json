@@ -1,0 +1,13 @@
+{
+  "name": "@autovend/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node -e \"console.log('web: no build yet - React Router v7 scaffold lands in Phase 1 (docs/ROADMAP.md)')\""
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

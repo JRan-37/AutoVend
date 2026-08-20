@@ -18,14 +18,14 @@ project productionizes it and builds the real backend behind it.
 
 ## Personas
 
-| Persona | Relationship | Needs |
-|---|---|---|
-| Fleet operator | internal | One console: fleet uptime, stock levels, restock routes, alerts, service tickets |
-| Placement / sales | internal | Lead inbox from website forms, pipeline stages, venue records, follow-up tracking |
-| Ad sales | internal | Campaign records, flight dates, delivery metrics (impressions, QR scans) |
-| Venue host | external | Request a machine, get responses within 2 business days (self-serve portal: later) |
-| Advertiser | external | Campaign inquiry → media kit (self-serve portal: later) |
-| End consumer | external | 2-minute product survey, suggest venues — no login |
+| Persona           | Relationship | Needs                                                                              |
+| ----------------- | ------------ | ---------------------------------------------------------------------------------- |
+| Fleet operator    | internal     | One console: fleet uptime, stock levels, restock routes, alerts, service tickets   |
+| Placement / sales | internal     | Lead inbox from website forms, pipeline stages, venue records, follow-up tracking  |
+| Ad sales          | internal     | Campaign records, flight dates, delivery metrics (impressions, QR scans)           |
+| Venue host        | external     | Request a machine, get responses within 2 business days (self-serve portal: later) |
+| Advertiser        | external     | Campaign inquiry → media kit (self-serve portal: later)                            |
+| End consumer      | external     | 2-minute product survey, suggest venues — no login                                 |
 
 ## Goals (first 12 months)
 
@@ -37,7 +37,7 @@ project productionizes it and builds the real backend behind it.
 
 ## Non-goals (v1)
 
-- Payment processing / machine firmware / device provisioning (telemetry *ingest API* is in
+- Payment processing / machine firmware / device provisioning (telemetry _ingest API_ is in
   scope later; the machine side is not).
 - Advertiser or venue-host self-serve portals (CRM records only).
 - Native mobile apps; multi-tenant SaaS (single operator: AutoVend).
@@ -53,24 +53,24 @@ project productionizes it and builds the real backend behind it.
 
 ### Forms → CRM entities
 
-| Form | Required fields | Writes | Routed to |
-|---|---|---|---|
-| Smart Placement | org, contact, email, venueType | Lead(type=placement) | placement@ |
-| Advertising | org, contact, email, industry | Lead(type=advertising) | ads@ |
-| Suggest a location | venue, city, reason | Lead(type=suggestion) | placement@ |
-| General | name, email, message | Lead(type=general) | hello@ |
-| Demo unlock | name, email, org | Lead(type=demo) | sales |
-| Product survey | venue, ≥1 category | SurveyResponse | assortment |
+| Form               | Required fields                | Writes                 | Routed to  |
+| ------------------ | ------------------------------ | ---------------------- | ---------- |
+| Smart Placement    | org, contact, email, venueType | Lead(type=placement)   | placement@ |
+| Advertising        | org, contact, email, industry  | Lead(type=advertising) | ads@       |
+| Suggest a location | venue, city, reason            | Lead(type=suggestion)  | placement@ |
+| General            | name, email, message           | Lead(type=general)     | hello@     |
+| Demo unlock        | name, email, org               | Lead(type=demo)        | sales      |
+| Product survey     | venue, ≥1 category             | SurveyResponse         | assortment |
 
 ### Console tabs (demo today → real modules)
 
-| Tab | Prototype state | Backing module |
-|---|---|---|
-| Overview | sample stats, sales sparkline, low-stock list, alerts | sales + machines + inventory |
-| Machines | fleet table: health, stock, sales 30d, status filter | machines + inventory |
-| Sales | daily sales, product mix | sales + catalog |
-| Ads | campaign table: flight, impressions, CTR, QR scans | advertising |
-| Routes / Alerts / Settings | "Phase 2" stubs | operations / machines / identity |
+| Tab                        | Prototype state                                       | Backing module                   |
+| -------------------------- | ----------------------------------------------------- | -------------------------------- |
+| Overview                   | sample stats, sales sparkline, low-stock list, alerts | sales + machines + inventory     |
+| Machines                   | fleet table: health, stock, sales 30d, status filter  | machines + inventory             |
+| Sales                      | daily sales, product mix                              | sales + catalog                  |
+| Ads                        | campaign table: flight, impressions, CTR, QR scans    | advertising                      |
+| Routes / Alerts / Settings | "Phase 2" stubs                                       | operations / machines / identity |
 
 ## Success metrics
 
