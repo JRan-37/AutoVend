@@ -17,10 +17,26 @@ import { useToasts } from "../../lib/toast";
  * strings); each form maps validated values to the wire type before submit
  * (ARCHITECTURE §3). */
 
-export const required = (label = "Required") => z.string().trim().min(1, label);
-export const emailField = z.string().trim().min(1, "Required").email("Enter a valid email");
+/** Required text, capped to the matching contract field's max so the client
+ * rejects what the wire schema would reject (no raw ZodError surfacing). */
+export const required = (max = 200, label = "Required") =>
+  z.string().trim().min(1, label).max(max, `Keep it under ${max} characters`);
+export const emailField = z
+  .string()
+  .trim()
+  .min(1, "Required")
+  .max(254)
+  .email("Enter a valid email");
 export const optionalText = (max: number) =>
   z.string().trim().max(max, `Keep it under ${max} characters`);
+const emailShape = z.string().email();
+/** Optional email in form dialect: "" allowed, otherwise must satisfy the same
+ * validator the contract uses (zod's .email(), not a looser hand-rolled regex). */
+export const optionalEmailField = z
+  .string()
+  .trim()
+  .max(254)
+  .refine((v) => v === "" || emailShape.safeParse(v).success, "Enter a valid email");
 
 export function requiredChoice(values: readonly string[]) {
   return z.string().refine((v) => values.includes(v), "Required");

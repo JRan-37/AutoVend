@@ -22,7 +22,7 @@ const schema = z.object({
   name: required(),
   email: emailField,
   subject: optionalText(200),
-  message: required(),
+  message: required(4000),
 });
 type Values = z.infer<typeof schema>;
 
@@ -64,8 +64,12 @@ export function GeneralForm() {
       setRefId(honeypot.fakeReceipt().id);
       return;
     }
-    const receipt = await submission.mutateAsync(toSubmission(values));
-    setRefId(receipt.id);
+    try {
+      const receipt = await submission.mutateAsync(toSubmission(values));
+      setRefId(receipt.id);
+    } catch {
+      // surfaced to the user via submission.error → <SubmitError/>
+    }
   });
 
   return (

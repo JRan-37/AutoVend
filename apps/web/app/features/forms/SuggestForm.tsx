@@ -15,6 +15,7 @@ import {
   FormShell,
   HoneypotField,
   optionalChoice,
+  optionalEmailField,
   optionalText,
   required,
   SubmitError,
@@ -28,13 +29,9 @@ const schema = z.object({
   city: required(),
   state: optionalText(80),
   trafficBand: optionalChoice(TRAFFIC_BANDS),
-  reason: required(),
+  reason: required(4000),
   contact: optionalText(200),
-  email: z
-    .string()
-    .trim()
-    .max(254)
-    .refine((v) => v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), "Enter a valid email"),
+  email: optionalEmailField,
 });
 type Values = z.infer<typeof schema>;
 
@@ -87,8 +84,12 @@ export function SuggestForm() {
       setRefId(honeypot.fakeReceipt().id);
       return;
     }
-    const receipt = await submission.mutateAsync(toSubmission(values));
-    setRefId(receipt.id);
+    try {
+      const receipt = await submission.mutateAsync(toSubmission(values));
+      setRefId(receipt.id);
+    } catch {
+      // surfaced to the user via submission.error → <SubmitError/>
+    }
   });
 
   return (

@@ -61,5 +61,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @autovend/contracts build
       - run: pnpm --filter @autovend/web build
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
       - run: pnpm --filter @autovend/web exec playwright install chromium --with-deps
       - run: pnpm --filter @autovend/web e2e

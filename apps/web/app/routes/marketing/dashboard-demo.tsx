@@ -63,11 +63,15 @@ function DemoGate({ onUnlock }: { onUnlock: () => void }) {
   });
 
   const onSubmit = handleSubmit(async (values) => {
-    if (!honeypot.isBot) {
-      await submission.mutateAsync(toSubmission(values));
+    try {
+      if (!honeypot.isBot) {
+        await submission.mutateAsync(toSubmission(values));
+      }
+      window.localStorage.setItem(UNLOCK_KEY, "1");
+      onUnlock();
+    } catch {
+      // surfaced to the user via submission.error → <SubmitError/>
     }
-    window.localStorage.setItem(UNLOCK_KEY, "1");
-    onUnlock();
   });
 
   return (
@@ -184,16 +188,15 @@ function DemoGate({ onUnlock }: { onUnlock: () => void }) {
 
 export default function DashboardDemoPage() {
   const { demoConsole } = useApi();
+  // The gate is the default render so the prerendered HTML carries real
+  // content; the effect flips returning visitors past it after hydration.
   const [unlocked, setUnlocked] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
   const api = useMemo(() => demoConsole(), [demoConsole]);
 
   useEffect(() => {
-    setUnlocked(window.localStorage.getItem(UNLOCK_KEY) === "1");
-    setHydrated(true);
+    if (window.localStorage.getItem(UNLOCK_KEY) === "1") setUnlocked(true);
   }, []);
 
-  if (!hydrated) return null;
   if (!unlocked) return <DemoGate onUnlock={() => setUnlocked(true)} />;
 
   return (

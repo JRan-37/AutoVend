@@ -20,6 +20,7 @@ import {
   blankToUndefined,
   HoneypotField,
   optionalChoice,
+  optionalEmailField,
   optionalText,
   required,
   SubmitError,
@@ -39,16 +40,12 @@ export function meta() {
 }
 
 const schema = z.object({
-  venueText: required(),
+  venueText: required(300),
   venueType: optionalChoice(VENUE_TYPES),
   categoryCodes: z.array(z.string()).min(1, "Pick at least one"),
   dietaryCodes: z.array(z.string()),
   suggestion: optionalText(2000),
-  email: z
-    .string()
-    .trim()
-    .max(254)
-    .refine((v) => v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), "Enter a valid email"),
+  email: optionalEmailField,
 });
 type Values = z.infer<typeof schema>;
 
@@ -133,8 +130,12 @@ export default function SurveyPage() {
       setRefId(`S-${Math.random().toString(36).slice(2, 7).toUpperCase()}`);
       return;
     }
-    const receipt = await submission.mutateAsync(toSubmission(values));
-    setRefId(receipt.id);
+    try {
+      const receipt = await submission.mutateAsync(toSubmission(values));
+      setRefId(receipt.id);
+    } catch {
+      // surfaced to the user via submission.error → <SubmitError/>
+    }
   });
 
   return (

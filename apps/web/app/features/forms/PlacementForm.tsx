@@ -91,8 +91,12 @@ export function PlacementForm() {
       setRefId(honeypot.fakeReceipt().id);
       return;
     }
-    const receipt = await submission.mutateAsync(toSubmission(values));
-    setRefId(receipt.id);
+    try {
+      const receipt = await submission.mutateAsync(toSubmission(values));
+      setRefId(receipt.id);
+    } catch {
+      // surfaced to the user via submission.error → <SubmitError/>
+    }
   });
 
   return (

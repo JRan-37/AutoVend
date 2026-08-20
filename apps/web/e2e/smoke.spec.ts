@@ -42,3 +42,11 @@ test("prerendered marketing HTML contains real content before hydration", async 
   const html = await res.text();
   expect(html).toContain("Predictive restock");
 });
+
+test("prerendered /dashboard-demo carries the gate, not an empty shell", async ({ request }) => {
+  // Regression: a hydration guard once made this route prerender as null.
+  const res = await request.get("/dashboard-demo");
+  expect(res.ok()).toBeTruthy();
+  const html = await res.text();
+  expect(html).toContain("Unlock the dashboard preview");
+});
