@@ -89,10 +89,10 @@ Follows from the domain, later (heads-up only, no action now):
 - [x] `autovend` admin profile configured locally _(verified via `sts get-caller-identity`)_
 - [x] Domain — **autovendsystems.com** in Route 53; mailboxes via **Google Workspace**
       (zone keeps Google MX/DKIM; Terraform uses the zone as a data source only)
-- [ ] Install the **Renovate GitHub App** on JRan-37/AutoVend (one click, free for public
-      repos) — keeps action SHAs, lockfile, and image digests fresh
+- [x] Renovate GitHub App installed on JRan-37/AutoVend _(2026-08-20)_
 - [ ] (Later, Phase 1 end) SES production access request submitted
-- [ ] (Open question 5) `git filter-repo` decision on the 33 MB of renders in history
+- [x] (Open question 5) `git filter-repo` — done 2026-08-20; unreferenced `uploads/` removed
+      from all history, originals archived off-repo
 
 **Unrelated to pipelines, but recommended:** the zone has no SPF record — Google Workspace
 outbound mail will soft-fail SPF at some receivers. Adding a TXT at the apex fixes it:

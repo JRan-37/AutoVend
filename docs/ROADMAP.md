@@ -9,22 +9,24 @@ two months of invisible work.
 
 Goal: a monorepo where `pnpm install && pnpm build && pnpm test` works and CI is green.
 
-- [ ] Move prototype files (incl. `AutoVend Website.html`) to `prototype/`, untouched;
+- [x] Move prototype files (incl. `AutoVend Website.html`) to `prototype/`, untouched;
       exclude `prototype/**` from eslint + tsconfig **in the same commit**
-- [ ] Media: web-sized assets → `apps/web/public/`; decide open question 5 (ARCHITECTURE §13)
-      — `git filter-repo` the 33 MB of source renders out of history now, adopt
-      "source media lives in S3, not git"
-- [ ] pnpm workspaces: `apps/web`, `apps/api` (empty shell), `packages/contracts`
+- [x] Media: the 16 MB of unreferenced source renders (`uploads/`) `git filter-repo`'d out of
+      history 2026-08-20 (originals archived off-repo; convention: source media lives in S3,
+      not git). Referenced media (`prototype/assets/`) stays with the prototype it serves;
+      web-sized copies land in `apps/web/public/` during the Phase 1 port
+- [x] pnpm workspaces: `apps/web`, `apps/api` (empty shell), `packages/contracts`
       (builds to `dist/` with a real exports map from day one)
-- [ ] Shared tooling: root eslint (incl. `eslint-plugin-boundaries` + `react/no-danger`),
-      prettier, tsconfig base, vitest workspace, Renovate (SHA-pinned actions, lockfile,
+- [x] Shared tooling: root eslint (incl. `eslint-plugin-boundaries` + `react/no-danger`),
+      prettier, tsconfig base, vitest, Renovate (app installed; SHA-pinned actions, lockfile,
       image digests)
-- [ ] `ci.yml`: gitleaks (fail fast, pre-install) → install → `pnpm audit` → lint →
+- [x] `ci.yml`: gitleaks (fail fast, pre-install) → install → `pnpm audit` → lint →
       format-check → typecheck → test → build,
       all actions pinned to commit SHAs; branch protection on `main`
-- [ ] AutoVend `CLAUDE.md` (TS/pnpm conventions, boundary rules, test gates, migration rules)
+- [x] AutoVend `CLAUDE.md` (TS/pnpm conventions, boundary rules, test gates, migration rules)
 
-**Exit:** CI green on a PR; repo layout matches ARCHITECTURE §2.
+**Exit: ✅ met 2026-08-20** — CI green ([PR #1](https://github.com/JRan-37/AutoVend/pull/1),
+31s); repo layout matches ARCHITECTURE §2.
 
 ## Phase 1 — Frontend productionization + first AWS deploy _(~3–5 weeks)_ ← current focus
 
