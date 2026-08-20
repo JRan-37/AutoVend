@@ -1,10 +1,16 @@
 # deps & build output
 node_modules/
 dist/
+build/
+.react-router/
 coverage/
 *.tsbuildinfo
 pnpm-debug.log*
 *.sarif
+
+# test artifacts
+test-results/
+playwright-report/
 
 # env & secrets — this repo is public; nothing sensitive is ever committed
 .env

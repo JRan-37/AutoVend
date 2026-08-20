@@ -1,0 +1,250 @@
+/* Operator console demo — ported from prototype dashboard.jsx inline styles.
+ * The dash-* custom properties scope a light/dark sub-theme to the shell. */
+
+.dash-shell {
+  border: 1px solid var(--rule-2);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--dbg, var(--bg));
+  color: var(--dink, var(--ink));
+  box-shadow:
+    0 32px 80px -24px rgba(15, 23, 32, 0.18),
+    0 4px 12px rgba(15, 23, 32, 0.04);
+}
+.dash-shell.dark {
+  --dbg: #0a0d10;
+  --dbg-elev: #0f1316;
+  --dbg-sunken: #06080a;
+  --dink: #f4f6f7;
+  --dink-2: #d2d7da;
+  --dink-3: #8a939b;
+  --dink-4: #5b6770;
+  --drule: #1a1f23;
+  --drule-2: #242a2f;
+  --daccent: #38bdf8;
+  --daccent-soft: rgba(56, 189, 248, 0.1);
+}
+.dash-shell.light {
+  --dbg: #ffffff;
+  --dbg-elev: #fafaf9;
+  --dbg-sunken: #f4f4f3;
+  --dink: #0d141a;
+  --dink-2: #2f3e46;
+  --dink-3: #5b6770;
+  --dink-4: #8a939b;
+  --drule: #e5e7e9;
+  --drule-2: #d8dcdf;
+  --daccent: #00a8e8;
+  --daccent-soft: rgba(0, 168, 232, 0.08);
+}
+
+.dash-chrome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--drule);
+  background: var(--dbg-sunken);
+}
+.dash-dots {
+  display: flex;
+  gap: 6px;
+}
+.dash-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+.dash-chrome-label {
+  margin-left: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--dink-3);
+  letter-spacing: 0.05em;
+}
+.dash-badge {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 3px 8px;
+  border: 1px solid var(--daccent);
+  color: var(--daccent);
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+}
+
+.dash-body {
+  display: flex;
+  min-height: 720px;
+}
+.dash-sidebar {
+  width: 220px;
+  border-right: 1px solid var(--drule);
+  background: var(--dbg-sunken);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.dash-side-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px 6px;
+}
+.dash-side-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 0;
+  text-align: left;
+  background: transparent;
+  color: var(--dink-2);
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.dash-side-btn.on {
+  background: var(--daccent-soft);
+  color: var(--daccent);
+}
+.dash-side-btn .icon {
+  font-family: var(--font-mono);
+  opacity: 0.7;
+  width: 14px;
+}
+.dash-side-foot {
+  margin-top: auto;
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--dink-4);
+  letter-spacing: 0.05em;
+}
+
+.dash-main {
+  flex: 1;
+  overflow: auto;
+  max-height: 720px;
+}
+.dash-pad {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.dash-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.dash-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.dash-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.dash-grid-main {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 16px;
+}
+.dash-panel {
+  padding: 20px;
+  border: 1px solid var(--drule);
+  border-radius: 10px;
+  background: var(--dbg-elev);
+}
+
+.dash-table {
+  border: 1px solid var(--drule);
+  border-radius: 10px;
+  overflow-x: auto;
+  background: var(--dbg-elev);
+}
+.dash-thead,
+.dash-row {
+  display: grid;
+  padding: 12px 16px;
+  align-items: center;
+}
+.dash-thead {
+  border-bottom: 1px solid var(--drule);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--dink-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--dbg-sunken);
+}
+.dash-row {
+  padding: 14px 16px;
+  border-top: 1px solid var(--drule);
+  font-size: 13px;
+  color: var(--dink-2);
+}
+.dash-row:first-of-type {
+  border-top: none;
+}
+.cols-machines {
+  grid-template-columns: 100px 1.6fr 1fr 80px 80px 90px 110px;
+  min-width: 760px;
+}
+.cols-ads {
+  grid-template-columns: 90px 1.4fr 1fr 1fr 0.7fr 1fr 90px;
+  min-width: 720px;
+}
+.dash-num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.dash-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  justify-content: flex-end;
+}
+.dash-status .sdot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.dash-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--drule);
+}
+.dash-list-row:first-of-type {
+  border-top: none;
+}
+
+@media (max-width: 880px) {
+  .dash-sidebar {
+    display: none;
+  }
+  .dash-grid-4,
+  .dash-grid-3,
+  .dash-grid-2,
+  .dash-grid-main {
+    grid-template-columns: 1fr;
+  }
+}

@@ -9,6 +9,10 @@ export default tseslint.config(
     ignores: [
       "prototype/**", // frozen design reference — never linted
       "**/dist/**",
+      "**/build/**",
+      "**/.react-router/**",
+      "**/test-results/**",
+      "**/playwright-report/**",
       "**/node_modules/**",
       "coverage/**",
       "index.html",
@@ -16,6 +20,14 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+
+  // Node utility scripts (preview server, future tooling)
+  {
+    files: ["**/scripts/**/*.mjs"],
+    languageOptions: {
+      globals: { process: "readonly", console: "readonly" },
+    },
+  },
 
   // Lead/survey text is attacker-controlled input rendered in the privileged
   // console (ARCHITECTURE §10.2) — raw-HTML rendering is banned repo-wide.

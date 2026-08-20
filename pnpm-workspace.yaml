@@ -2,3 +2,7 @@ packages:
   - apps/*
   - packages/*
   - tools/*
+
+# pnpm 11: postinstall scripts run only for explicitly allowed packages
+allowBuilds:
+  esbuild: true
