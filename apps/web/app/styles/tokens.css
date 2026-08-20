@@ -1,0 +1,87 @@
+/* AutoVend design tokens — ported verbatim from prototype/styles.css.
+ * Default theme: slate + cyber-blue. Themes toggle via [data-theme] on <html>. */
+
+:root {
+  --bg: #ffffff;
+  --bg-elev: #fafaf9;
+  --bg-sunken: #f4f4f3;
+  --ink: #0d141a;
+  --ink-2: #2f3e46;
+  --ink-3: #5b6770;
+  --ink-4: #8a939b;
+  --rule: #e5e7e9;
+  --rule-2: #d8dcdf;
+  --accent: #00a8e8;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(0, 168, 232, 0.08);
+  --accent-line: rgba(0, 168, 232, 0.35);
+  --warn: #d97706;
+  --good: #059669;
+  --bad: #dc2626;
+
+  --grid: rgba(15, 23, 32, 0.06);
+
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+
+  --pad: 1.5rem;
+  --maxw: 1200px;
+  --section-y: 5rem;
+
+  --font-sans:
+    "Geist Variable", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  --font-mono:
+    "Geist Mono Variable", "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  --font-display: "Geist Variable", "Geist", "Inter", system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0d10;
+  --bg-elev: #0f1316;
+  --bg-sunken: #06080a;
+  --ink: #f4f6f7;
+  --ink-2: #d2d7da;
+  --ink-3: #8a939b;
+  --ink-4: #5b6770;
+  --rule: #1a1f23;
+  --rule-2: #242a2f;
+  --accent: #38bdf8;
+  --accent-ink: #0a0d10;
+  --accent-soft: rgba(56, 189, 248, 0.1);
+  --accent-line: rgba(56, 189, 248, 0.35);
+  --grid: rgba(244, 246, 247, 0.05);
+}
+
+[data-theme="warm"] {
+  --bg: #faf7f2;
+  --bg-elev: #f5f0e8;
+  --bg-sunken: #ede7dc;
+  --ink: #1a1611;
+  --ink-2: #3d342a;
+  --ink-3: #6b5e51;
+  --ink-4: #9b8e80;
+  --rule: #e1d9cb;
+  --rule-2: #d3c9b7;
+  --accent: #c5410d;
+  --accent-ink: #faf7f2;
+  --accent-soft: rgba(197, 65, 13, 0.08);
+  --accent-line: rgba(197, 65, 13, 0.35);
+  --grid: rgba(26, 22, 17, 0.06);
+}
+
+/* density variants */
+[data-density="airy"] {
+  --pad: 2rem;
+  --section-y: 7rem;
+}
+[data-density="regular"] {
+  --pad: 1.5rem;
+  --section-y: 5rem;
+}
+[data-density="editorial"] {
+  --pad: 1.125rem;
+  --section-y: 3.5rem;
+}
