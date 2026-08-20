@@ -9,14 +9,14 @@ yet); see the design docs.
 
 ## Layout
 
-| Path | What |
-|---|---|
-| `apps/web` | React Router v7 app — marketing (prerendered) + console (SPA). Phase 1. |
-| `apps/api` | NestJS modular monolith — the CRM. Phase 2+. |
-| `packages/contracts` | zod/ts-rest contracts + enum codes shared FE/BE. |
-| `infra/` | Terraform (S3+CloudFront, App Runner, RDS, OIDC roles). Phase 1+. |
-| `prototype/` | The original static prototype — **frozen as the design reference.** |
-| `docs/` | [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · runbooks |
+| Path                 | What                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| `apps/web`           | React Router v7 app — marketing (prerendered) + console (SPA). Phase 1.                           |
+| `apps/api`           | NestJS modular monolith — the CRM. Phase 2+.                                                      |
+| `packages/contracts` | zod/ts-rest contracts + enum codes shared FE/BE.                                                  |
+| `infra/`             | Terraform (S3+CloudFront, App Runner, RDS, OIDC roles). Phase 1+.                                 |
+| `prototype/`         | The original static prototype — **frozen as the design reference.**                               |
+| `docs/`              | [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · runbooks |
 
 ## Development
 

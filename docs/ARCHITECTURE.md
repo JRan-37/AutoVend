@@ -66,16 +66,16 @@ Notes that save a day later:
 `ssr: false` and `prerender` for the public routes. Output is fully static (S3-hostable);
 marketing pages ship as real HTML for SEO, `/console/*` behaves as a plain SPA.
 
-| Concern | Choice | Notes |
-|---|---|---|
-| Routing | RR7 file routes | Clean URLs. A tiny root-route shim redirects legacy `#/x` hash links to `/x` |
-| Public routes | prerendered | build-time `loader` allowed; content baked at deploy |
-| Console routes | SPA only — **never prerendered**, `noindex` | `clientLoader` + `HydrateFallback` pattern; own fallback HTML so deep links don't carry marketing meta |
-| Server state | TanStack Query over ts-rest client | |
-| Client state | React state/context | no global store until a real need appears |
-| URL state | search params | console filters (machine status, date ranges) |
-| Styling | port `styles.css` token system; extract prototype inline styles to component CSS | themes/density survive; fonts self-hosted via Fontsource, two families max |
-| Forms | React Hook Form + zod | form schemas **derived** from contract schemas (`.extend()`/`.transform()` in `lib/forms`) — forms want `""`/string dates, the API wants `undefined`/ISO |
+| Concern        | Choice                                                                           | Notes                                                                                                                                                    |
+| -------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Routing        | RR7 file routes                                                                  | Clean URLs. A tiny root-route shim redirects legacy `#/x` hash links to `/x`                                                                             |
+| Public routes  | prerendered                                                                      | build-time `loader` allowed; content baked at deploy                                                                                                     |
+| Console routes | SPA only — **never prerendered**, `noindex`                                      | `clientLoader` + `HydrateFallback` pattern; own fallback HTML so deep links don't carry marketing meta                                                   |
+| Server state   | TanStack Query over ts-rest client                                               |                                                                                                                                                          |
+| Client state   | React state/context                                                              | no global store until a real need appears                                                                                                                |
+| URL state      | search params                                                                    | console filters (machine status, date ranges)                                                                                                            |
+| Styling        | port `styles.css` token system; extract prototype inline styles to component CSS | themes/density survive; fonts self-hosted via Fontsource, two families max                                                                               |
+| Forms          | React Hook Form + zod                                                            | form schemas **derived** from contract schemas (`.extend()`/`.transform()` in `lib/forms`) — forms want `""`/string dates, the API wants `undefined`/ISO |
 
 **Escape hatch, pre-decided:** if prerender/hydration fights back for more than ~2 days of
 work, split into Astro (marketing) + plain Vite SPA (console). Named trigger, cheap decision.
@@ -170,19 +170,19 @@ apps/api/src/modules/crm/
 
 ### Core data model (per owning module)
 
-| Module | Entities (abridged) |
-|---|---|
-| parties | `Organization {name, kind: venue-host\|advertiser}` · `Contact {orgId?, name, email, phone}` |
-| crm | `Lead {type: placement\|advertising\|suggestion\|general\|demo, status: new→contacted→qualified→won\|lost, assigneeUserId?, convertedOrganizationId?, convertedVenueId?}` — filterable fields (`venueType`, `trafficBand`, `industry`, `budgetBand`, `city`, `state`) are **typed columns**; jsonb holds free text only · `SurveyResponse {venueText, venueType, categoryCodes[], dietaryCodes[], suggestion, email?}` · `Activity` (notes) |
-| locations | `Region {name, state, status: active\|expansion, timeZone, mapX, mapY, density}` · `Venue {name, venueType, address, regionId, trafficBand, status: prospect→contracted→live\|churned, orgId?}` · `VenueAgreement {venueId, revSharePct\|fixedFeeMinor, termStart, termEnd, documentId?}` *(Phase 4)* |
-| machines | `Machine {serial, model, source: simulated\|hardware, status, healthPct}` · `Placement {machineId, venueId, from, to?}` (history) · `Alert {machineId, level, message, at}` — **immutable telemetry signal, no workflow fields** |
-| catalog | `Product {sku, name, category, dietaryTags[]}` |
-| inventory | `PlanogramSlot {machineId, slotNo, sku, capacity, currentQty, threshold}` |
-| sales | `SaleTxn {machineId, sku, productNameAtSale, unitPriceMinor, qty, at, paymentType}` · `DailySalesRollup` (venue-local dates) |
-| advertising | `Campaign {orgId, flightStart, flightEnd, status}` · `CampaignMetricsDaily {impressions, qrScans}` · `InsertionOrder`, `Invoice {status: draft\|sent\|paid\|overdue}` *(Phase 4)* |
-| operations | `ServiceTicket {machineId, severity, source: telemetry\|manual, status, assigneeUserId?, acknowledged…}` — **the only human workflow object for machine problems** (`machine.went-offline` auto-opens one) · `Route {date, operatorUserId, stops[]}` |
-| documents | `Document {ownerType, ownerId, s3Key, filename, contentType, sizeBytes, uploadedBy}` — presigned PUT/GET against a private bucket, MIME/size allowlist server-side; never proxied through the API |
-| identity | `User {email, cognitoSub, role}` — **role is a display copy; Cognito groups are authoritative** (§6) |
+| Module      | Entities (abridged)                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| parties     | `Organization {name, kind: venue-host\|advertiser}` · `Contact {orgId?, name, email, phone}`                                                                                                                                                                                                                                                                                                                                                |
+| crm         | `Lead {type: placement\|advertising\|suggestion\|general\|demo, status: new→contacted→qualified→won\|lost, assigneeUserId?, convertedOrganizationId?, convertedVenueId?}` — filterable fields (`venueType`, `trafficBand`, `industry`, `budgetBand`, `city`, `state`) are **typed columns**; jsonb holds free text only · `SurveyResponse {venueText, venueType, categoryCodes[], dietaryCodes[], suggestion, email?}` · `Activity` (notes) |
+| locations   | `Region {name, state, status: active\|expansion, timeZone, mapX, mapY, density}` · `Venue {name, venueType, address, regionId, trafficBand, status: prospect→contracted→live\|churned, orgId?}` · `VenueAgreement {venueId, revSharePct\|fixedFeeMinor, termStart, termEnd, documentId?}` _(Phase 4)_                                                                                                                                       |
+| machines    | `Machine {serial, model, source: simulated\|hardware, status, healthPct}` · `Placement {machineId, venueId, from, to?}` (history) · `Alert {machineId, level, message, at}` — **immutable telemetry signal, no workflow fields**                                                                                                                                                                                                            |
+| catalog     | `Product {sku, name, category, dietaryTags[]}`                                                                                                                                                                                                                                                                                                                                                                                              |
+| inventory   | `PlanogramSlot {machineId, slotNo, sku, capacity, currentQty, threshold}`                                                                                                                                                                                                                                                                                                                                                                   |
+| sales       | `SaleTxn {machineId, sku, productNameAtSale, unitPriceMinor, qty, at, paymentType}` · `DailySalesRollup` (venue-local dates)                                                                                                                                                                                                                                                                                                                |
+| advertising | `Campaign {orgId, flightStart, flightEnd, status}` · `CampaignMetricsDaily {impressions, qrScans}` · `InsertionOrder`, `Invoice {status: draft\|sent\|paid\|overdue}` _(Phase 4)_                                                                                                                                                                                                                                                           |
+| operations  | `ServiceTicket {machineId, severity, source: telemetry\|manual, status, assigneeUserId?, acknowledged…}` — **the only human workflow object for machine problems** (`machine.went-offline` auto-opens one) · `Route {date, operatorUserId, stops[]}`                                                                                                                                                                                        |
+| documents   | `Document {ownerType, ownerId, s3Key, filename, contentType, sizeBytes, uploadedBy}` — presigned PUT/GET against a private bucket, MIME/size allowlist server-side; never proxied through the API                                                                                                                                                                                                                                           |
+| identity    | `User {email, cognitoSub, role}` — **role is a display copy; Cognito groups are authoritative** (§6)                                                                                                                                                                                                                                                                                                                                        |
 
 **Lead conversion rule:** a Lead is an **immutable snapshot** of what was submitted. Org /
 Contact / Venue records are created (or linked to existing ones — dedupe UI) only by an
@@ -210,7 +210,7 @@ explicit `convertLead` use case on transition to `qualified`. This prevents both
   double-clicks are safe), then emit events for notification fan-out.
 - **One-off tasks** (seeds, backfills, ad-hoc SQL) have a home: SSM Session Manager
   port-forward through an on-demand t4g.nano bastion (stopped by default, ~$0 when off).
-  GitHub runners cannot reach the private RDS — which is also *why* migrations run on boot.
+  GitHub runners cannot reach the private RDS — which is also _why_ migrations run on boot.
 
 ### Fleet simulator — machines before hardware specs exist
 
@@ -234,10 +234,10 @@ geometry all TBD), so the platform is **simulator-first**:
 
 Two layers, different owners:
 
-| Layer | Owned by | Contents |
-|---|---|---|
-| `contracts/<module>.resource.ts` | the backend module that owns the schema | canonical resource shapes (`Lead`, `Machine`, `Venue`…) |
-| `contracts/console.view.ts` | the `console` BFF | screen-shaped read models (`MachineListRow`, `ConsoleOverview`) — what the frontend/fixtures actually consume |
+| Layer                            | Owned by                                | Contents                                                                                                      |
+| -------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `contracts/<module>.resource.ts` | the backend module that owns the schema | canonical resource shapes (`Lead`, `Machine`, `Venue`…)                                                       |
+| `contracts/console.view.ts`      | the `console` BFF                       | screen-shaped read models (`MachineListRow`, `ConsoleOverview`) — what the frontend/fixtures actually consume |
 
 This split is what keeps "the frontend defines the contract" from becoming "the frontend
 defines the backend's joins": fixtures conform to **view** contracts; domain modules never
@@ -279,7 +279,7 @@ contort to screen shapes.
   Client-side route guards are UX only — the console bundle is public (normal for a SPA);
   every console endpoint enforces JWT + role server-side.
 - Ordering gotcha for Phase 2/3: a Cognito **custom domain** needs an ACM cert in us-east-1
-  *and* an existing A record on the parent domain; Cognito email must be wired to SES (its
+  _and_ an existing A record on the parent domain; Cognito email must be wired to SES (its
   default sender caps at 50/day).
 - Future machine telemetry auth is **not Cognito**: per-serial API tokens with rotation, an
   unattended-device model (Phase 5).
@@ -292,18 +292,18 @@ Single account (fresh one recommended — clean IAM/billing boundary **and** a n
 every migration against a restored prod snapshot locally (runbook item), not by paying for a
 second environment.
 
-| Concern | Service | Notes |
-|---|---|---|
-| Static hosting | S3 (private, BPA on, versioned) + CloudFront (OAC) | bucket policy `AWS:SourceArn` pinned to the distribution ARN; TLS floor `TLSv1.2_2021` |
-| API runtime | **App Runner** (ECR image) | 0.5 vCPU / 1 GB (NestJS boot + migrations need headroom), min 1 / max 3; generous health-check grace; VPC connector for RDS |
-| VPC egress | **Interface endpoints** for SES + SSM (single-AZ, ~$7/mo each) | the VPC connector routes *all* egress into the VPC — without endpoints, SES/SSM calls hang. No NAT Gateway (~$33/mo, budget-breaking); JWKS baking (§6) removes the Cognito egress need. Escape hatch if more endpoints pile up: fck-nat t4g.nano (~$4/mo) |
-| Database | RDS PostgreSQL 16 `db.t4g.micro`, single-AZ, 20 GB gp3 | `storage_encrypted` **from first apply** (cannot be enabled in place later), `publicly_accessible=false` explicit, `deletion_protection=true`, `rds.force_ssl=1` + `sslmode=verify-full` in the app, SG ingress = the VPC-connector SG (never a CIDR), 7-day backups |
-| Email | SES domain identity (DKIM + custom MAIL FROM subdomain) | **send-only**; receiving is Google Workspace on the same domain (coexists — apex MX/TXT untouched, §13 Q3); SES **sandbox exit is a human-reviewed request — file it in Phase 1** |
-| Auth | Cognito user pool + Hosted UI | see §6 |
-| Registry | ECR, scan-on-push | lifecycle keep last 10 |
-| DNS / TLS | Route 53 (existing autovendsystems.com zone, **data source only**) + ACM | apex + www → CloudFront; Google Workspace MX/DKIM/TXT records are never managed by Terraform |
-| Secrets | SSM Parameter Store SecureString | App Runner instance role scoped to `/autovend/prod/*` only |
-| Logs/metrics | CloudWatch | §11 |
+| Concern        | Service                                                                  | Notes                                                                                                                                                                                                                                                                |
+| -------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Static hosting | S3 (private, BPA on, versioned) + CloudFront (OAC)                       | bucket policy `AWS:SourceArn` pinned to the distribution ARN; TLS floor `TLSv1.2_2021`                                                                                                                                                                               |
+| API runtime    | **App Runner** (ECR image)                                               | 0.5 vCPU / 1 GB (NestJS boot + migrations need headroom), min 1 / max 3; generous health-check grace; VPC connector for RDS                                                                                                                                          |
+| VPC egress     | **Interface endpoints** for SES + SSM (single-AZ, ~$7/mo each)           | the VPC connector routes _all_ egress into the VPC — without endpoints, SES/SSM calls hang. No NAT Gateway (~$33/mo, budget-breaking); JWKS baking (§6) removes the Cognito egress need. Escape hatch if more endpoints pile up: fck-nat t4g.nano (~$4/mo)           |
+| Database       | RDS PostgreSQL 16 `db.t4g.micro`, single-AZ, 20 GB gp3                   | `storage_encrypted` **from first apply** (cannot be enabled in place later), `publicly_accessible=false` explicit, `deletion_protection=true`, `rds.force_ssl=1` + `sslmode=verify-full` in the app, SG ingress = the VPC-connector SG (never a CIDR), 7-day backups |
+| Email          | SES domain identity (DKIM + custom MAIL FROM subdomain)                  | **send-only**; receiving is Google Workspace on the same domain (coexists — apex MX/TXT untouched, §13 Q3); SES **sandbox exit is a human-reviewed request — file it in Phase 1**                                                                                    |
+| Auth           | Cognito user pool + Hosted UI                                            | see §6                                                                                                                                                                                                                                                               |
+| Registry       | ECR, scan-on-push                                                        | lifecycle keep last 10                                                                                                                                                                                                                                               |
+| DNS / TLS      | Route 53 (existing autovendsystems.com zone, **data source only**) + ACM | apex + www → CloudFront; Google Workspace MX/DKIM/TXT records are never managed by Terraform                                                                                                                                                                         |
+| Secrets        | SSM Parameter Store SecureString                                         | App Runner instance role scoped to `/autovend/prod/*` only                                                                                                                                                                                                           |
+| Logs/metrics   | CloudWatch                                                               | §11                                                                                                                                                                                                                                                                  |
 
 ### CloudFront `/api/*` behavior — settings that silently break if defaulted
 
@@ -317,14 +317,14 @@ second environment.
 
 **Estimated monthly cost (prod, low traffic):**
 
-| Item | $/mo |
-|---|---|
-| RDS t4g.micro + 20 GB | ~15 (≈0 in year one on a fresh account) |
-| App Runner 0.5 vCPU / 1 GB | ~10–30 |
-| VPC interface endpoints (SES, SSM) | ~14 |
-| CloudFront + S3 + Route 53 | ~2–4 |
-| SES / Cognito / ECR / SSM / bastion (stopped) | ~0–1 |
-| **Total** | **~$30–55** (frontend-only Phase 1: ~$3) |
+| Item                                          | $/mo                                     |
+| --------------------------------------------- | ---------------------------------------- |
+| RDS t4g.micro + 20 GB                         | ~15 (≈0 in year one on a fresh account)  |
+| App Runner 0.5 vCPU / 1 GB                    | ~10–30                                   |
+| VPC interface endpoints (SES, SSM)            | ~14                                      |
+| CloudFront + S3 + Route 53                    | ~2–4                                     |
+| SES / Cognito / ECR / SSM / bastion (stopped) | ~0–1                                     |
+| **Total**                                     | **~$30–55** (frontend-only Phase 1: ~$3) |
 
 Escape hatches, pre-decided: App Runner → ECS Fargate + ALB (same image) for websockets /
 private ingress with VPC origins / one-off run-task; interface endpoints → fck-nat if the
@@ -336,12 +336,12 @@ endpoint count grows; SQS + outbox when events must survive restarts.
 conditions** (plus `aud = sts.amazonaws.com`), because a wildcard `sub` would let any PR
 assume the prod deploy roles and make the approval gate decorative:
 
-| Role | Trust (`sub` condition) | Rights |
-|---|---|---|
-| web-deploy | `repo:JRan-37/AutoVend:ref:refs/heads/main` | that bucket + that distribution's invalidations |
-| api-deploy | `repo:JRan-37/AutoVend:ref:refs/heads/main` | that ECR repo + that App Runner service |
-| infra-plan | `repo:JRan-37/AutoVend:pull_request` | **read-only** + state read; runs `plan -lock=false` |
-| infra-apply | `repo:JRan-37/AutoVend:environment:production` | broad; only obtainable after environment approval |
+| Role        | Trust (`sub` condition)                        | Rights                                              |
+| ----------- | ---------------------------------------------- | --------------------------------------------------- |
+| web-deploy  | `repo:JRan-37/AutoVend:ref:refs/heads/main`    | that bucket + that distribution's invalidations     |
+| api-deploy  | `repo:JRan-37/AutoVend:ref:refs/heads/main`    | that ECR repo + that App Runner service             |
+| infra-plan  | `repo:JRan-37/AutoVend:pull_request`           | **read-only** + state read; runs `plan -lock=false` |
+| infra-apply | `repo:JRan-37/AutoVend:environment:production` | broad; only obtainable after environment approval   |
 
 Paired with **branch protection on `main`** (required PR + status checks, no force-push) —
 without it, ref-scoping means nothing. Solo-dev residual risk, named: Jon approving Jon is an
@@ -357,12 +357,12 @@ flowchart LR
   MAIN -->|infra/| APPLY[infra.yml apply<br/>gated by production environment approval]
 ```
 
-| Workflow | Trigger | Jobs |
-|---|---|---|
-| `ci.yml` | every PR + main | pnpm install (cached) → eslint incl. boundary rules → `tsc --noEmit` → vitest with coverage gate (§9 scope) → `gitleaks` → `pnpm audit --audit-level=high` → build both apps |
-| `deploy-web.yml` | push main, `paths: apps/web/**, packages/**` | build (`VITE_API_BASE=/api`) → `aws s3 sync` (assets `max-age=31536000,immutable`; HTML `no-cache`) → invalidate `/*.html`, `/`. **Ordered after deploy-api when both trigger** (contract additivity is the second safety net) |
+| Workflow         | Trigger                                      | Jobs                                                                                                                                                                                                                                                                |
+| ---------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`         | every PR + main                              | pnpm install (cached) → eslint incl. boundary rules → `tsc --noEmit` → vitest with coverage gate (§9 scope) → `gitleaks` → `pnpm audit --audit-level=high` → build both apps                                                                                        |
+| `deploy-web.yml` | push main, `paths: apps/web/**, packages/**` | build (`VITE_API_BASE=/api`) → `aws s3 sync` (assets `max-age=31536000,immutable`; HTML `no-cache`) → invalidate `/*.html`, `/`. **Ordered after deploy-api when both trigger** (contract additivity is the second safety net)                                      |
 | `deploy-api.yml` | push main, `paths: apps/api/**, packages/**` | docker buildx (base image pinned by digest, non-root user, tag = git SHA) → push ECR → **fail on CRITICAL/HIGH scan findings** → `apprunner start-deployment` → poll health → fail loudly. Rollback: `workflow_dispatch` redeploy of a previous SHA (code-only, §4) |
-| `infra.yml` | PR plan / main apply on `infra/**` | fmt + validate + tflint + **tfsec (blocking on high/critical)** → plan (secrets `sensitive`, never in plan output) → apply behind `production` environment |
+| `infra.yml`      | PR plan / main apply on `infra/**`           | fmt + validate + tflint + **tfsec (blocking on high/critical)** → plan (secrets `sensitive`, never in plan output) → apply behind `production` environment                                                                                                          |
 
 Supply-chain hygiene: **every action pinned to a full commit SHA** (the `tj-actions` incident
 is the canonical warning); Renovate keeps pins, pnpm lockfile, and base-image digests fresh;
@@ -373,14 +373,14 @@ Post-deploy Playwright smoke runs against prod and alerts on failure.
 
 ## 9. Testing strategy
 
-| Layer | Tool | Gate |
-|---|---|---|
-| api modules (`apps/api/src/modules/**`) | vitest + testcontainers-postgres | 80% coverage, blocks merge |
-| web logic (`apps/web/app/{lib,features}/**`) | vitest + testing-library | 80% on logic dirs |
-| contracts | type-level + a few behavioral transforms | **excluded from the % gate** (a coverage gate on zod declarations generates busywork tests) |
-| authz | integration matrix: every role × every console route group, plus no-token → 401 | explicit suite, Phase 3 exit criterion |
-| E2E critical flows | Playwright: form submit → lead exists; login; machines table | blocks deploy on smoke failure |
-| Visual | Playwright screenshots 375/768/1440 on hero + console | non-blocking review artifact |
+| Layer                                        | Tool                                                                            | Gate                                                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| api modules (`apps/api/src/modules/**`)      | vitest + testcontainers-postgres                                                | 80% coverage, blocks merge                                                                  |
+| web logic (`apps/web/app/{lib,features}/**`) | vitest + testing-library                                                        | 80% on logic dirs                                                                           |
+| contracts                                    | type-level + a few behavioral transforms                                        | **excluded from the % gate** (a coverage gate on zod declarations generates busywork tests) |
+| authz                                        | integration matrix: every role × every console route group, plus no-token → 401 | explicit suite, Phase 3 exit criterion                                                      |
+| E2E critical flows                           | Playwright: form submit → lead exists; login; machines table                    | blocks deploy on smoke failure                                                              |
+| Visual                                       | Playwright screenshots 375/768/1440 on hero + console                           | non-blocking review artifact                                                                |
 
 TDD per house rules: contract/schema tests first, then module behavior (RED → GREEN → refactor).
 
@@ -404,7 +404,7 @@ Long-term fix if we outgrow it: App Runner private ingress + CloudFront VPC orig
   per-instance (×3 at max scale) until a shared store is warranted — plus a test asserting
   two XFF identities get separate buckets.
 - **Stored-XSS rule (highest-leverage finding):** lead/survey text is attacker-controlled
-  input rendered inside the *privileged* console. It is rendered as text only, everywhere;
+  input rendered inside the _privileged_ console. It is rendered as text only, everywhere;
   `dangerouslySetInnerHTML` is forbidden repo-wide via eslint (`react/no-danger`) with no
   exceptions on lead/survey-sourced data.
 - **Email injection:** strip `\r\n`/control chars from any user field that approaches an SES
@@ -425,7 +425,7 @@ Long-term fix if we outgrow it: App Runner private ingress + CloudFront VPC orig
   denylist redact paths can't keep up with a free-form jsonb field.
 - RDS encrypted at rest from first apply (§7); TLS on the DB hop enforced both sides.
 - **Audit log:** append-only `audit_log {actorId, action, entityType, entityId, before, after,
-  at}` via a Nest interceptor on all mutating console routes (~50 lines now; forensics later).
+at}` via a Nest interceptor on all mutating console routes (~50 lines now; forensics later).
 
 ### 10.4 Platform
 
@@ -446,19 +446,19 @@ watching.
 
 ## 12. Decisions (ADR summary — all "proposed" until Jon signs off)
 
-| # | Decision | Recommendation | Alternatives considered | Why |
-|---|---|---|---|---|
-| 1 | Backend framework | **NestJS (TS)** | Fastify+manual modules; Hono; Go | Module system + DI mirror the boundary rules; TS shared with FE via contracts |
-| 2 | ORM / migrations | **Drizzle** (with §4 guardrails) | Prisma | First-class multi-schema pg, SQL-transparent, light runtime |
-| 3 | API contract | **ts-rest + zod**, `validateResponses` on, versions pinned | OpenAPI codegen; tRPC | End-to-end types without codegen; zod reused for forms; still REST |
-| 4 | Frontend | **React Router v7, ssr:false + prerender**; named trigger to split Astro+SPA if hydration fights back | Next.js; Astro+SPA; plain Vite SPA | Static output *and* real marketing HTML, one app, no server runtime |
-| 5 | API runtime | **App Runner** + origin lock + VPC endpoints | ECS Fargate+ALB; Lambda monolith | Simplest container CD at ~$10–30/mo; ECS escape hatch pre-decided |
-| 6 | Auth | **Cognito Hosted UI, code+PKCE, public client** | Auth0/Clerk; self-managed; embedded SRP SDK | Zero password-handling code; SDK-in-SPA rejected for XSS-adjacent token storage |
-| 7 | IaC | **Terraform** (bootstrap root + native S3 locking) | CDK (TS); SST | Explicit plan/apply fits approval-gated CD; no CloudFormation coupling |
-| 8 | Monorepo tooling | **pnpm workspaces only** | +Turborepo/Nx | Path-filtered workflows cover CI at this size |
-| 9 | DB isolation | **schema-per-module, one instance, published-views exception** | table prefixes; db-per-module | Real boundary, one cheap RDS, extraction-ready |
-| 10 | Read composition | **`console` BFF module + published read-only views** | per-screen fan-out over facades; GraphQL | Console screens join 5+ modules; without a sanctioned composition tier the boundary rules die on the first screen |
-| 11 | Machine data | **Simulator-first mock fleet** (`tools/simulator`, decided 2026-08-19) | wait for hardware specs; hand-entered data only | No hardware specs exist yet; the simulator keeps every layer buildable and demoable, and pre-validates the ingest API before devices arrive |
+| #   | Decision          | Recommendation                                                                                        | Alternatives considered                         | Why                                                                                                                                         |
+| --- | ----------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Backend framework | **NestJS (TS)**                                                                                       | Fastify+manual modules; Hono; Go                | Module system + DI mirror the boundary rules; TS shared with FE via contracts                                                               |
+| 2   | ORM / migrations  | **Drizzle** (with §4 guardrails)                                                                      | Prisma                                          | First-class multi-schema pg, SQL-transparent, light runtime                                                                                 |
+| 3   | API contract      | **ts-rest + zod**, `validateResponses` on, versions pinned                                            | OpenAPI codegen; tRPC                           | End-to-end types without codegen; zod reused for forms; still REST                                                                          |
+| 4   | Frontend          | **React Router v7, ssr:false + prerender**; named trigger to split Astro+SPA if hydration fights back | Next.js; Astro+SPA; plain Vite SPA              | Static output _and_ real marketing HTML, one app, no server runtime                                                                         |
+| 5   | API runtime       | **App Runner** + origin lock + VPC endpoints                                                          | ECS Fargate+ALB; Lambda monolith                | Simplest container CD at ~$10–30/mo; ECS escape hatch pre-decided                                                                           |
+| 6   | Auth              | **Cognito Hosted UI, code+PKCE, public client**                                                       | Auth0/Clerk; self-managed; embedded SRP SDK     | Zero password-handling code; SDK-in-SPA rejected for XSS-adjacent token storage                                                             |
+| 7   | IaC               | **Terraform** (bootstrap root + native S3 locking)                                                    | CDK (TS); SST                                   | Explicit plan/apply fits approval-gated CD; no CloudFormation coupling                                                                      |
+| 8   | Monorepo tooling  | **pnpm workspaces only**                                                                              | +Turborepo/Nx                                   | Path-filtered workflows cover CI at this size                                                                                               |
+| 9   | DB isolation      | **schema-per-module, one instance, published-views exception**                                        | table prefixes; db-per-module                   | Real boundary, one cheap RDS, extraction-ready                                                                                              |
+| 10  | Read composition  | **`console` BFF module + published read-only views**                                                  | per-screen fan-out over facades; GraphQL        | Console screens join 5+ modules; without a sanctioned composition tier the boundary rules die on the first screen                           |
+| 11  | Machine data      | **Simulator-first mock fleet** (`tools/simulator`, decided 2026-08-19)                                | wait for hardware specs; hand-entered data only | No hardware specs exist yet; the simulator keeps every layer buildable and demoable, and pre-validates the ingest API before devices arrive |
 
 ## 13. Open questions — status (updated 2026-08-19)
 

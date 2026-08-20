@@ -1,0 +1,20 @@
+# deps & build output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# env & secrets — this repo is public; nothing sensitive is ever committed
+.env
+.env.*
+!.env.example
+
+# terraform (state lives in S3; account-specific values stay local)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -47,6 +47,7 @@ This settles open question 2. Pick a path:
    and enter the key ID / secret at the prompt (region `us-east-1`, output `json`).
    **Enter keys only in that prompt — never paste them into chat**; Claude drives the CLI via
    the profile name and never needs to see the values.
+
 4. Report back: the **12-digit account ID** and that profile `autovend` is ready.
 
 ### Path B — reuse the existing account
@@ -82,10 +83,10 @@ Follows from the domain, later (heads-up only, no action now):
 
 ## Checklist
 
-- [x] `gh auth refresh` — token now carries `workflow` scope *(verified 2026-08-19)*
-- [x] AWS account decided — dedicated account provisioned *(ID kept out of this public repo;
-      lives in GitHub repo variables + gitignored tfvars)*
-- [x] `autovend` admin profile configured locally *(verified via `sts get-caller-identity`)*
+- [x] `gh auth refresh` — token now carries `workflow` scope _(verified 2026-08-19)_
+- [x] AWS account decided — dedicated account provisioned _(ID kept out of this public repo;
+      lives in GitHub repo variables + gitignored tfvars)_
+- [x] `autovend` admin profile configured locally _(verified via `sts get-caller-identity`)_
 - [x] Domain — **autovendsystems.com** in Route 53; mailboxes via **Google Workspace**
       (zone keeps Google MX/DKIM; Terraform uses the zone as a data source only)
 - [ ] Install the **Renovate GitHub App** on JRan-37/AutoVend (one click, free for public

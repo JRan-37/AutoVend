@@ -1,0 +1,5 @@
+prototype/
+dist/
+coverage/
+pnpm-lock.yaml
+index.html

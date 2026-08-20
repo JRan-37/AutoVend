@@ -1,0 +1,13 @@
+{
+  "name": "@autovend/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node -e \"console.log('api: no build yet - NestJS modular monolith lands in Phase 2 (docs/ROADMAP.md)')\""
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

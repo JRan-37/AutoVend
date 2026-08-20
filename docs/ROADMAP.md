@@ -5,7 +5,7 @@ Status: **approved 2026-08-19** · Frontend first, per project direction. Each p
 Sizing is rough solo-dev calendar time, stated so "frontend first" doesn't silently become
 two months of invisible work.
 
-## Phase 0 — Repo & toolchain scaffold *(~2–3 days)*
+## Phase 0 — Repo & toolchain scaffold _(~2–3 days)_
 
 Goal: a monorepo where `pnpm install && pnpm build && pnpm test` works and CI is green.
 
@@ -25,7 +25,7 @@ Goal: a monorepo where `pnpm install && pnpm build && pnpm test` works and CI is
 
 **Exit:** CI green on a PR; repo layout matches ARCHITECTURE §2.
 
-## Phase 1 — Frontend productionization + first AWS deploy *(~3–5 weeks)* ← current focus
+## Phase 1 — Frontend productionization + first AWS deploy _(~3–5 weeks)_ ← current focus
 
 Goal: the prototype, rebuilt properly, live on CloudFront with automated deploys.
 
@@ -59,7 +59,7 @@ Goal: the prototype, rebuilt properly, live on CloudFront with automated deploys
 prerendered HTML for public routes; forms validate and submit against the stub with visible
 loading/error/success states.
 
-## Phase 2 — API skeleton + real lead capture *(~2–3 weeks)*
+## Phase 2 — API skeleton + real lead capture _(~2–3 weeks)_
 
 Goal: public forms write real Leads/SurveyResponses; Jon can read them; notifications flow.
 
@@ -85,7 +85,7 @@ Goal: public forms write real Leads/SurveyResponses; Jon can read them; notifica
 **Exit:** placement form on prod → Lead row + pointer email < 1 min; Jon reads it signed-in at
 `/console`; zero AWS credentials in GitHub; App Runner unreachable except via CloudFront.
 
-## Phase 3 — Console v1 on real data *(~3–5 weeks)*
+## Phase 3 — Console v1 on real data _(~3–5 weeks)_
 
 Goal: operators sign in and manage the fleet from real records.
 
@@ -111,7 +111,7 @@ Goal: operators sign in and manage the fleet from real records.
 frozen demo data with **zero authenticated API calls**; a venue added in the console shows on
 the public map after the triggered redeploy.
 
-## Phase 4 — Revenue & operations modules *(~3–4 weeks)*
+## Phase 4 — Revenue & operations modules _(~3–4 weeks)_
 
 Goal: the console answers money and maintenance questions.
 
@@ -129,7 +129,7 @@ Goal: the console answers money and maintenance questions.
 **Exit:** "which machines need restock today?" answered by `/console/routes`; sales tab shows
 imported numbers; each venue shows its agreement terms and computed share.
 
-## Phase 5 — Hardening & polish *(~1–2 weeks + ongoing)*
+## Phase 5 — Hardening & polish _(~1–2 weeks + ongoing)_
 
 - [ ] Observability pass: alarms → email verified, request-id tracing end-to-end
 - [ ] RDS restore drill documented in `docs/runbooks/` (and exercised once)
