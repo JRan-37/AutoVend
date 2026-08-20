@@ -4,6 +4,7 @@ dist/
 coverage/
 *.tsbuildinfo
 pnpm-debug.log*
+*.sarif
 
 # env & secrets — this repo is public; nothing sensitive is ever committed
 .env
