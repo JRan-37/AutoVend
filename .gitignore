@@ -3,6 +3,7 @@ node_modules/
 dist/
 coverage/
 *.tsbuildinfo
+pnpm-debug.log*
 
 # env & secrets — this repo is public; nothing sensitive is ever committed
 .env
