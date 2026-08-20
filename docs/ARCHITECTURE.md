@@ -55,10 +55,11 @@ Notes that save a day later:
 - `packages/contracts` **builds to `dist/`** with proper `exports`/`types`; the api Dockerfile
   is multi-stage using `pnpm deploy --filter=api --prod` — a plain `pnpm install` inside
   `apps/api` cannot resolve `workspace:*` deps.
-- `assets/` web-sized media → `apps/web/public/`. The 33 MB of source renders (`uploads/`)
-  stops being shipped; since this is a single-contributor repo, run `git filter-repo` **now**
-  to drop the blobs from history (impossible to do politely later), and adopt a "source media
-  lives in S3, not git" convention.
+- Media: **done 2026-08-20** — the 16 MB of unreferenced source renders (`uploads/`) were
+  `git filter-repo`'d out of history (originals archived off-repo, S3 later). Referenced
+  media stays in `prototype/assets/` so the frozen prototype keeps working; web-sized copies
+  land in `apps/web/public/` during the Phase 1 port. Convention going forward: source media
+  lives in S3, not git.
 
 ## 3. Frontend (`apps/web`) — build focus #1
 
@@ -478,5 +479,7 @@ watching.
    Google's apex records.
 4. **Staging** — settled: none for now; migration risk covered by the snapshot-rehearsal
    runbook (§7).
-5. **Git history rewrite** — **still open**: OK to `git filter-repo` the 33 MB of renders out
-   of history while the repo has one contributor? (Force-push; free now, disruptive later.)
+5. **Git history rewrite** — ✅ done 2026-08-20: `uploads/` (16 MB, referenced by nothing)
+   filtered from all history and force-pushed; originals archived off-repo. Referenced
+   prototype media was deliberately kept (removing it would break the frozen prototype).
+   All commit SHAs changed — any other clone of this repo must be re-cloned, not pulled.
