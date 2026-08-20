@@ -3,5 +3,6 @@ packages:
   - packages/*
   - tools/*
 
-onlyBuiltDependencies:
-  - esbuild
+# pnpm 11: postinstall scripts run only for explicitly allowed packages
+allowBuilds:
+  esbuild: true
