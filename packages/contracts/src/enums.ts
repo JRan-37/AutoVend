@@ -158,3 +158,19 @@ export const REGION_STATUS_LABELS: Record<RegionStatus, string> = {
   active: "Active",
   expansion: "Expansion",
 };
+
+export const CAMPAIGN_STATUSES = ["live", "ending", "complete"] as const;
+export type CampaignStatus = (typeof CAMPAIGN_STATUSES)[number];
+export const CAMPAIGN_STATUS_LABELS: Record<CampaignStatus, string> = {
+  live: "Live",
+  ending: "Ending",
+  complete: "Complete",
+};
+
+export const ALERT_LEVELS = ["info", "warn", "critical"] as const;
+export type AlertLevel = (typeof ALERT_LEVELS)[number];
+export const ALERT_LEVEL_LABELS: Record<AlertLevel, string> = {
+  info: "Info",
+  warn: "Warning",
+  critical: "Critical",
+};
