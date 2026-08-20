@@ -140,19 +140,25 @@ resource "aws_iam_role" "web_deploy" {
 }
 
 data "aws_iam_policy_document" "web_deploy" {
+  # The site bucket gets a generated suffix at prod-apply time, after this
+  # bootstrap role exists — the name-prefix pattern is the tightest scope
+  # available, and only our bucket can carry it in this account.
   statement {
-    sid       = "SiteBucketList"
-    actions   = ["s3:ListBucket"]
+    sid     = "SiteBucketList"
+    actions = ["s3:ListBucket"]
+    #tfsec:ignore:aws-iam-no-policy-wildcards -- generated bucket suffix unknown at bootstrap time
     resources = ["arn:aws:s3:::autovend-prod-web*"]
   }
   statement {
-    sid       = "SiteBucketObjects"
-    actions   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+    sid     = "SiteBucketObjects"
+    actions = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+    #tfsec:ignore:aws-iam-no-policy-wildcards -- generated bucket suffix unknown at bootstrap time
     resources = ["arn:aws:s3:::autovend-prod-web*/*"]
   }
   statement {
-    sid       = "Invalidate"
-    actions   = ["cloudfront:CreateInvalidation", "cloudfront:GetInvalidation"]
+    sid     = "Invalidate"
+    actions = ["cloudfront:CreateInvalidation", "cloudfront:GetInvalidation"]
+    #tfsec:ignore:aws-iam-no-policy-wildcards -- distribution id generated at prod-apply time; invalidation-only actions, account-scoped
     resources = ["arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/*"]
   }
 }
@@ -176,7 +182,8 @@ resource "aws_iam_role_policy_attachment" "infra_plan_readonly" {
 
 data "aws_iam_policy_document" "infra_plan_state" {
   statement {
-    actions   = ["s3:GetObject", "s3:ListBucket"]
+    actions = ["s3:GetObject", "s3:ListBucket"]
+    #tfsec:ignore:aws-iam-no-policy-wildcards -- read of every object in exactly one bucket: the tf state bucket
     resources = [aws_s3_bucket.tfstate.arn, "${aws_s3_bucket.tfstate.arn}/*"]
   }
 }

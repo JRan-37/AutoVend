@@ -6,11 +6,11 @@ they live in GitHub repo **variables** and a local gitignored `backend.hcl`.
 
 ## Layout
 
-| Path | What | Applied by |
-|---|---|---|
-| `bootstrap/` | tfstate bucket, GitHub OIDC provider, the 3 CI roles | **by hand**, local state (gitignored) |
+| Path         | What                                                     | Applied by                                                                      |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `bootstrap/` | tfstate bucket, GitHub OIDC provider, the 3 CI roles     | **by hand**, local state (gitignored)                                           |
 | `envs/prod/` | frontend (S3+CloudFront+cert), DNS aliases, SES identity | **CI** — plan on PR, apply on main behind the `production` environment approval |
-| `modules/` | frontend, ses | — |
+| `modules/`   | frontend, ses                                            | —                                                                               |
 
 ## One-time bootstrap (already done 2026-08-20)
 
