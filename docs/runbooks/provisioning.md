@@ -34,7 +34,7 @@ This settles open question 2. Pick a path:
 
 ### Path A — fresh dedicated account (recommended)
 
-1. Create the account at aws.amazon.com — an email alias works (e.g. `jran2400+autovend@…`).
+1. Create the account at aws.amazon.com — an email alias works (e.g. `you+autovend@example.com`).
    Turn on **MFA for the root user immediately**; never use root again after step 2.
 2. In the console: IAM → Users → create `autovend-admin` → attach `AdministratorAccess` →
    create an **access key** (use case: CLI).

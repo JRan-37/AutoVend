@@ -49,3 +49,11 @@ test("every exported *_LABELS map is covered by this suite", () => {
   const covered = pairs.map(([, labelsName]) => labelsName);
   expect(exported.sort()).toEqual([...covered].sort());
 });
+
+test("every exported value array is registered in this suite", () => {
+  const valueArrays = Object.entries(enums)
+    .filter(([, v]) => Array.isArray(v) && v.every((x) => typeof x === "string"))
+    .map(([k]) => k);
+  const covered = pairs.map(([valuesName]) => valuesName);
+  expect(valueArrays.sort()).toEqual([...covered].sort());
+});

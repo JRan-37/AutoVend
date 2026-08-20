@@ -19,7 +19,8 @@ Goal: a monorepo where `pnpm install && pnpm build && pnpm test` works and CI is
 - [ ] Shared tooling: root eslint (incl. `eslint-plugin-boundaries` + `react/no-danger`),
       prettier, tsconfig base, vitest workspace, Renovate (SHA-pinned actions, lockfile,
       image digests)
-- [ ] `ci.yml`: install → lint → typecheck → test → gitleaks → `pnpm audit` → build,
+- [ ] `ci.yml`: gitleaks (fail fast, pre-install) → install → `pnpm audit` → lint →
+      format-check → typecheck → test → build,
       all actions pinned to commit SHAs; branch protection on `main`
 - [ ] AutoVend `CLAUDE.md` (TS/pnpm conventions, boundary rules, test gates, migration rules)
 
