@@ -17,11 +17,13 @@ playwright-report/
 .env.*
 !.env.example
 
-# terraform (state lives in S3; account-specific values stay local)
+# terraform (state lives in S3; account-specific values stay local;
+# .terraform.lock.hcl IS committed — provider supply-chain pinning)
 .terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
+backend.hcl
 
 # OS noise
 .DS_Store
